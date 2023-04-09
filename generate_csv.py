@@ -13,7 +13,8 @@ DOJG_COLUMNS = {
     "Volume": "volume",
     "Page": "page",
     #"Page Count": "page_count",
-    #"Usage": "usage",
+    "Usage": "usage",
+    "English": "english",
 }
 
 HJGP_COLUMNS = {
@@ -25,6 +26,7 @@ HJGP_COLUMNS = {
     "Page": "page",
     "Page Count": "page_count",
     #"Usage": "usage",
+    #"English": "english",
 }
 
 DOJP_COLUMNS = {
@@ -36,6 +38,7 @@ DOJP_COLUMNS = {
     "Page": "page",
     #"Page Count": "page_count",
     #"Usage": "usage",
+    #"English": "english",
 }
 
 def generate_csv(dictionary: Dictionary, out_file: TextIO, crossref_dicts: Dict[str, Dictionary], columns):

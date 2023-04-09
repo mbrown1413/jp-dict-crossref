@@ -13,6 +13,7 @@ class Entry:
     all_forms: List[str]
     sub_entry: Optional[int]
     usage: Optional[str]
+    english: Optional[str]
     book: str
     volume: Optional[str]
     page: str
@@ -72,10 +73,13 @@ def extract_dojg_entry(row):
         concept = full_name
         sub_entry = None
 
-    usage = str(cells[0])
-    assert usage.startswith("<td>")
-    assert usage.endswith("</td>")
-    usage = usage[4:-5]
+    # English counterpart appears in the last part of the usage text in the div with the "equiv" class.
+    english = cells[0].find("div", {"class": "equiv"}).text.replace("\n", "")
+
+    # Get full usage, then subtract english counterpart
+    usage = cells[0].text.replace("\n", "")
+    assert usage.endswith(english)
+    usage = usage[:-len(english)]
 
     volume = {
         "B": "basic",
@@ -88,6 +92,7 @@ def extract_dojg_entry(row):
         all_forms=parse_dojg_entry_name(concept),
         sub_entry=sub_entry,
         usage=usage,
+        english=english,
         book="dojg",
         volume=volume,
         page=cells[1].text,
@@ -157,6 +162,7 @@ def extract_hjgp_entry(row):
         all_forms=all_forms,
         sub_entry=sub_entry,
         usage=None,
+        english=None,
         book="hjgp",
         volume=None,
         page=page,
@@ -235,6 +241,7 @@ def get_dojp_dict():
                 all_forms=all_forms,
                 sub_entry=None,
                 usage=None,
+                english=None,
                 book="dojp",
                 volume=None,
                 page=row[0],
