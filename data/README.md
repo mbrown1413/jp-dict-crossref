@@ -9,4 +9,4 @@ hjgp.html
 
 dojp.json
 * Dictionary of Japanese Particles
-* Source: Me =D
+* Source: Me manually typing out the particle chart in the front and back of the book.

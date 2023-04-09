@@ -1,4 +1,5 @@
 import re
+import csv
 from dataclasses import dataclass
 from typing import Optional, List, Iterable, Tuple
 import unicodedata
@@ -162,7 +163,7 @@ def extract_hjgp_entry(row):
         page_count=page_count,
     )
 
-def parse_hjgp_entry_name(concept_cell: Tag) -> Tuple[int, List[str]]:
+def parse_hjgp_entry_name(concept_cell: Tag) -> Tuple[Optional[int], List[str]]:
     """
     Returns (sub-entry #, [forms])
     """
@@ -202,3 +203,42 @@ def parse_hjgp_entry_name(concept_cell: Tag) -> Tuple[int, List[str]]:
         all_forms.append(anchor_tag.text)
 
     return sub_entry, all_forms
+
+
+
+########## Dictionary of Japanese Particles ##########
+
+def get_dojp_dict():
+    entries = []
+    with open("data/dojp.csv", newline="") as f:
+        reader = csv.reader(f, skipinitialspace=True)
+        assert next(reader) == ["page", "entry"]
+        for row in reader:
+            page = row[0].strip()
+
+            entry = row[1].strip()
+            all_forms = []
+
+            # Split different forms by dot
+            for form in entry.split(","):
+
+                # Consider parts in parethesis optional
+                match = re.match(r"(.+)\((.+)\)", form)
+                if match:
+                    all_forms.append(match.group(1))
+                    all_forms.append(match.group(1)+match.group(2))
+                else:
+                    all_forms.append(form)
+
+            entries.append(Entry(
+                concept=entry,
+                all_forms=all_forms,
+                sub_entry=None,
+                usage=None,
+                book="dojp",
+                volume=None,
+                page=row[0],
+                page_count=None,
+            ))
+
+    return Dictionary("dojp", entries)
