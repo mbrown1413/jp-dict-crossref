@@ -14,7 +14,7 @@ DOJG_COLUMNS = {
     "Volume": "volume",
     "Page": "page",
     #"Page Count": "page_count",
-    "Usage": "usage",
+    #"Usage": "usage",
     "English": "english",
 }
 
