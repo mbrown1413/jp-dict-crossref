@@ -1,5 +1,6 @@
 from typing import List, TextIO, Dict
 import csv
+import re
 
 from dictionaries import Dictionary, Entry, get_dojg_dict, get_hjgp_dict, get_dojp_dict
 from crossreference import crossreference_entry
@@ -63,9 +64,16 @@ def generate_csv(dictionary: Dictionary, out_file: TextIO, crossref_dicts: Dict[
         for dict_name, d in crossref_dicts.items():
             if dict_name != dictionary.name:
                 references = crossreference_entry(entry, [d])
-                row.append(", ".join(reference.page for reference in references))
+                pages = set(reference.page for reference in references)
+                row.append(", ".join(alphanum_sort(pages)))
 
         writer.writerow(row)
+
+def alphanum_sort(xs):
+    """https://stackoverflow.com/questions/2669059/how-to-sort-alpha-numeric-set-in-python#2669120"""
+    convert = lambda text: int(text) if text.isdigit() else text
+    alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
+    return sorted(xs, key = alphanum_key)
 
 def main():
     all_dicts = {

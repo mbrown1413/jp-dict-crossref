@@ -16,27 +16,3 @@ def crossreference_entry(entry: Entry, dictionaries: List[Dictionary]) -> List[E
                     found_entries.append(found_entry)
 
     return found_entries
-
-
-def main():
-    dojg = get_dojg_dict()
-    hjgp = get_hjgp_dict()
-
-    main_dict = dojg
-    other_dicts = [
-        hjgp,
-    ]
-
-    for entry in dojg.entries:
-        print(entry.concept)
-        for ref in crossreference_entry(entry, other_dicts):
-            print(f"    {entry.book}: {ref.concept} p.{ref.page}")
-
-    print(hjgp.on_page("347"))
-    print(dojg.find("時"))
-    print(dojg.find("時"))
-    print(list(crossreference_entry(dojg.find("時")[0], other_dicts)))
-
-
-if __name__ == "__main__":
-    main()
