@@ -40,3 +40,12 @@ To re-generate the CSV files, install beautifulsoup4 and run:
 It's easy to edit `generate_csv.py` if you want to change the columns output.
 Just keep in mind that most dictionaries implemented don't fill all of the data
 fields.
+
+
+## License
+
+This software and data is released under The Unlicense. See
+[LICENSE.txt](LICENSE.txt) for legal details.
+
+Basically, use it however you want. If you build off of this project, it'd be
+really nice if you cited this as your source, but it's not required.
